@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disease Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        label, input {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Disease Prediction</h1>
+        <form id="diseasePredictionForm">
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required>
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+            <label for="bloodPressure">Blood Pressure (mmHg):</label>
+            <input type="number" id="bloodPressure" name="bloodPressure" required>
+            <label for="cholesterol">Cholesterol (mg/dL):</label>
+            <input type="number" id="cholesterol" name="cholesterol" required>
+            <label for="heartRate">Heart Rate (BPM):</label>
+            <input type="number" id="heartRate" name="heartRate" required>
+            <input type="submit" value="Predict Disease">
+        </form>
+        <div id="predictionResult"></div>
+    </div>
+
+    <script>
+        document.getElementById('diseasePredictionForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Perform prediction here
+            // You can use JavaScript to handle form submission and prediction
+            // For simplicity, I'm just showing a sample result here
+            var resultDiv = document.getElementById('predictionResult');
+            resultDiv.innerHTML = "<h2>Prediction Result:</h2><p>The patient is at low risk of heart disease.</p>";
+        });
+    </script>
+</body>
+</html>
