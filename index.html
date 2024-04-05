@@ -1,80 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Disease Prediction</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-        }
-        .container {
-            width: 80%;
-            margin: 20px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-        }
-        form {
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        label, input {
-            display: block;
-            margin-bottom: 10px;
-        }
-        input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monthly Expense Tracker</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+    .container {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    input[type="submit"] {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+</style>
+<style>
+
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url("background1.jpeg");
+    background-size: cover; /* This ensures the image covers the entire background */
+    background-position: center; /* This centers the image */
+}
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>Disease Prediction</h1>
-        <form id="diseasePredictionForm">
-            <label for="age">Age:</label>
-            <input type="number" id="age" name="age" required>
-            <label for="gender">Gender:</label>
-            <select id="gender" name="gender" required>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-            </select>
-            <label for="bloodPressure">Blood Pressure (mmHg):</label>
-            <input type="number" id="bloodPressure" name="bloodPressure" required>
-            <label for="cholesterol">Cholesterol (mg/dL):</label>
-            <input type="number" id="cholesterol" name="cholesterol" required>
-            <label for="heartRate">Heart Rate (BPM):</label>
-            <input type="number" id="heartRate" name="heartRate" required>
-            <input type="submit" value="Predict Disease">
-        </form>
-        <div id="predictionResult"></div>
-    </div>
+<div class="container">
+    <h2>Monthly Expense Tracker</h2>
+    <form id="expenseForm">
+        <label for="income">Income:</label>
+        <input type="text" id="income" name="income" placeholder="Enter your monthly income"><br>
+        <label for="rent">Rent:</label>
+        <input type="text" id="rent" name="rent" placeholder="Enter your rent expense"><br>
+        <label for="electricity">Electricity Bill:</label>
+        <input type="text" id="electricity" name="electricity" placeholder="Enter your electricity bill expense"><br>
+        <label for="tax">Tax:</label>
+        <input type="text" id="tax" name="tax" placeholder="Enter your tax expense"><br>
+        <label for="medicine">Medicine:</label>
+        <input type="text" id="medicine" name="medicine" placeholder="Enter your medicine expense"><br>
+        <input type="submit" value="Track Expenses">
+    </form>
+    <div id="result"></div>
+</div>
 
-    <script>
-        document.getElementById('diseasePredictionForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            // Perform prediction here
-            // You can use JavaScript to handle form submission and prediction
-            // For simplicity, I'm just showing a sample result here
-            var resultDiv = document.getElementById('predictionResult');
-            resultDiv.innerHTML = "<h2>Prediction Result:</h2><p>The patient is at low risk of heart disease.</p>";
-        });
-    </script>
+<script>
+    // Function to handle form submission
+    function trackExpenses(event) {
+        event.preventDefault();
+        
+        // Retrieve income and expenses from the form
+        var income = parseFloat(document.getElementById('income').value);
+        var rent = parseFloat(document.getElementById('rent').value);
+        var electricity = parseFloat(document.getElementById('electricity').value);
+        var tax = parseFloat(document.getElementById('tax').value);
+        var medicine = parseFloat(document.getElementById('medicine').value);
+        
+        // Store data in local storage
+        localStorage.setItem('income', income);
+        localStorage.setItem('rent', rent);
+        localStorage.setItem('electricity', electricity);
+        localStorage.setItem('tax', tax);
+        localStorage.setItem('medicine', medicine);
+        
+        // Calculate total expenses
+        var totalExpenses = rent + electricity + tax + medicine;
+        
+        // Calculate remaining balance
+        var remainingBalance = income - totalExpenses;
+        
+        // Display result message
+        var resultElement = document.getElementById('result');
+        resultElement.innerHTML = '';
+        
+        var resultMessage = document.createElement('p');
+        if (isNaN(income) || isNaN(totalExpenses)) {
+            resultMessage.textContent = 'Please enter valid numbers for income and expenses.';
+            resultMessage.style.color = 'red';
+        } else {
+            resultMessage.textContent = 'Remaining Balance: ₹ ' + remainingBalance.toFixed(2);
+            resultMessage.style.color = 'green';
+            resultMessage.textContent = 'Yay! You have saved ₹ ' + remainingBalance.toFixed(2);
+            resultMessage.style.color = 'green';
+        }
+        resultElement.appendChild(resultMessage);
+    }
+    
+    // Function to load data from local storage when the page loads
+    window.onload = function() {
+        var income = localStorage.getItem('income');
+        var rent = localStorage.getItem('rent');
+        var electricity = localStorage.getItem('electricity');
+        var tax = localStorage.getItem('tax');
+        var medicine = localStorage.getItem('medicine');
+        
+        if (income !== null) {
+            document.getElementById('income').value = income;
+        }
+        if (rent !== null) {
+            document.getElementById('rent').value = rent;
+        }
+        if (electricity !== null) {
+            document.getElementById('electricity').value = electricity;
+        }
+        if (tax !== null) {
+            document.getElementById('tax').value = tax;
+        }
+        if (medicine !== null) {
+            document.getElementById('medicine').value = medicine;
+        }
+    };
+    
+    // Add event listener to the form
+    document.getElementById('expenseForm').addEventListener('submit', trackExpenses);
+</script>
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    canvas {
+        max-width: 600px;
+        margin: 20px auto;
+        display: block;
+    }
+</style>
+</head>
+<body>
+<canvas id="expenseVsIncomeChart"></canvas>
+
+<script>
+    // Get data from local storage
+    var income = parseFloat(localStorage.getItem('income'));
+    var rent = parseFloat(localStorage.getItem('rent'));
+    var electricity = parseFloat(localStorage.getItem('electricity'));
+    var tax = parseFloat(localStorage.getItem('tax'));
+    var medicine = parseFloat(localStorage.getItem('medicine'));
+
+    // Calculate total expenses
+    var expenses = rent + electricity + tax + medicine;
+
+    // Calculate remaining balance
+    var remainingBalance = income - expenses;
+
+    // Create data for the chart
+    var data = {
+        labels: ['Income', 'Expenses', 'Remaining Balance'],
+        datasets: [{
+            label: 'Expense vs Income vs Remaining Balance',
+            data: [income, expenses, remainingBalance],
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(75, 192, 192, 0.5)'
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(75, 192, 192, 1)'
+            ],
+            borderWidth: 1
+        }]
+    };
+
+    // Get the canvas element
+    var ctx = document.getElementById('expenseVsIncomeChart').getContext('2d');
+
+    // Create the pie chart
+    var expenseVsIncomeChart = new Chart(ctx, {
+        type: 'pie',
+        data: data,
+        options: {
+            responsive: true,
+            legend: {
+                display: true,
+                position: 'bottom',
+            }
+        }
+    });
+</script>
 </body>
 </html>
