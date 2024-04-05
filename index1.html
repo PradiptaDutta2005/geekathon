@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expense Tracker</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    label {
+        font-weight: bold;
+    }
+    input[type="text"],
+    input[type="date"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    input[type="submit"] {
+        width: 100%;
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+    canvas {
+        margin-top: 20px;
+        display: block;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>Enter Previous Month's Details</h2>
+    <form id="expenseForm">
+        <label for="income">Income:</label>
+        <input type="text" id="income" name="income" placeholder="Enter monthly income"><br>
+        <label for="rent">Rent:</label>
+        <input type="text" id="rent" name="rent" placeholder="Enter rent expense"><br>
+        <label for="electricity">Electricity Bill:</label>
+        <input type="text" id="electricity" name="electricity" placeholder="Enter electricity bill expense"><br>
+        <label for="tax">Tax:</label>
+        <input type="text" id="tax" name="tax" placeholder="Enter tax expense"><br>
+        <label for="medicine">Medicine:</label>
+        <input type="text" id="medicine" name="medicine" placeholder="Enter medicine expense"><br>
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date"><br>
+        <input type="submit" value="Track Expenses">
+    </form>
+    <canvas id="expenseChart"></canvas>
+    <p id="remainingBalance"></p>
+</div>
+
+<script>
+    document.getElementById('expenseForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        var rent = parseFloat(document.getElementById('rent').value) || 0;
+        var electricity = parseFloat(document.getElementById('electricity').value) || 0;
+        var tax = parseFloat(document.getElementById('tax').value) || 0;
+        var medicine = parseFloat(document.getElementById('medicine').value) || 0;
+        var income = parseFloat(document.getElementById('income').value) || 0;
+        var date = document.getElementById('date').value;
+
+        var totalExpenses = rent + electricity + tax + medicine;
+        var remainingBalance = income - totalExpenses;
+
+        updateChart(rent, electricity, tax, medicine, remainingBalance);
+        displayRemainingBalance(remainingBalance);
+    });
+
+    var expenseChart; // Define chart variable outside the function to allow updates
+
+    function updateChart(rent, electricity, tax, medicine, remainingBalance) {
+        if (expenseChart) { // Check if chart already exists, if yes, destroy it
+            expenseChart.destroy();
+        }
+        var ctx = document.getElementById('expenseChart').getContext('2d');
+        expenseChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Rent', 'Electricity', 'Tax', 'Medicine', 'Remaining Balance'],
+                datasets: [{
+                    label: 'Expenses',
+                    data: [rent, electricity, tax, medicine, remainingBalance],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(255, 206, 86, 0.5)',
+                        'rgba(75, 192, 192, 0.5)',
+                        'rgba(153, 102, 255, 0.5)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        });
+    }
+
+    function displayRemainingBalance(remainingBalance) {
+        var remainingBalanceElement = document.getElementById('remainingBalance');
+        remainingBalanceElement.textContent = 'Yay! you have saved ₹ ' + remainingBalance.toFixed(2);
+    }
+</script>
+</body>
+</html>
